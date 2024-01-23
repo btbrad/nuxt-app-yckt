@@ -9,12 +9,12 @@
 </script>
 
 <template>
-  <h2 class="flex justify-center">
+  <h2 class="flex justify-between mb-2">
     返回羊村
     <el-button type="primary" link @click="navigateTo('/register')">还未入村?</el-button>
   </h2>
 
-  <el-alert title="演示账号密码为：test" type="info" class="!mb-6" show-icon :closable="false" />
+  <el-alert title="演示账号密码为：test" type="success" class="!mb-6" show-icon :closable="false" />
 
   <el-form ref="formRef" class="w-[340px]" size="large">
     <el-form-item prop="username">
