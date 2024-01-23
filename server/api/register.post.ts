@@ -31,6 +31,9 @@ export default defineEventHandler(async (e) => {
     const hash = await bcrypt.hash(password, salt)
     data.password = hash
 
+    // @ts-expect-error
+    delete data.confirmPass
+
     // 入库
     const result = await createUser(data)
 

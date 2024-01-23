@@ -28,7 +28,8 @@
   const store = useUser()
   const login = async () => {
     await formRef.value!.validate()
-    const { ok, data } = httpPost('/api/login', {
+    // @ts-ignore
+    const { ok, data } = await httpPost('/api/login', {
       username: model.value.username,
       password: model.value.password
     })
