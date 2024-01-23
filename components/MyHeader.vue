@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useUser } from '../store/user'
+
+const store = useUser()
+const { userInfo } = storeToRefs(store)
+
 const route = useRoute()
 const menus = ref([
   { path: '/', label: '首页' },
@@ -6,6 +11,31 @@ const menus = ref([
   { path: '/course', label: '课程' }
 ])
 const activeIndex = ref('/')
+
+const options = [
+  {
+    label: '用户中心',
+    key: 'center',
+  },
+ {
+    label: '退出',
+    key: 'logout',
+  }
+]
+
+const handleCommand = (command: string) => {
+  switch (command) {
+    case 'logout':
+      showConfirmMessage('确定要登出吗？', '温馨提示', () => {
+        logout()
+      })
+      break
+    case 'center':
+      navigateTo('/usercenter')
+      break
+  }
+}
+
 </script>
 
 <template>
@@ -22,7 +52,15 @@ const activeIndex = ref('/')
           {{ menu.label }}
         </Menu>
       </div>
-      <el-button type="primary" @click="navigateTo('/login')">登录</el-button>
+      <el-button v-if="!userInfo" type="primary" @click="navigateTo('/login')">登录</el-button>
+      <el-dropdown v-else @command="handleCommand">
+        <el-avatar :size="50" :src="userInfo.avatar ? userInfo.avatar : ''" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="(item, index) in options" :key="index" :command="item.key">{{ item.label }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
